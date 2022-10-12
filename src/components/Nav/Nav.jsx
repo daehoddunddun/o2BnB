@@ -1,0 +1,202 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useFetcher, useLocation, useNavigate } from "react-router-dom";
+import UserModal from "./component/UserModal";
+import SearchBox from "./component/SearchBox";
+import MenuBox from "./component/MenuBox";
+import styled from "styled-components";
+
+function Nav() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
+  const [searchInputData, setSearchInputData] = useState("");
+  const [searchResultData, setSearchResultData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [searchResultModalOpen, setSearchResultModalOpen] = useState(false);
+  const accessToken = localStorage.getItem("TOKEN");
+  const refMenuBox = useRef();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const check_eng = /[a-zA-Z]/;
+  const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+  useEffect(() => {
+    fetch(
+      `http://10.58.52.191:3000/product/searchName?keyword=${searchInputData}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(result => setSearchResultData(result.message));
+
+    setFilterData(
+      searchResultData.filter(value => {
+        if (check_eng.test(searchInputData)) {
+          return value.name.toLowerCase().includes(searchInputData);
+        } else if (check_kor.test(searchInputData)) {
+          return value.name.includes(searchInputData);
+        }
+      })
+    );
+  }, [searchInputData]);
+
+  useEffect(() => {
+    fetch(`http://10.58.52.191:3000/user/info`, {
+      method: "GET",
+      headers: {
+        authorization: accessToken,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    })
+      .then(res => res.json())
+      .then(result => setUserData(result.message));
+  }, []);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/data/JanghyunData/HOTEL_DATA.json`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json;charset=utf-8",
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(result => setSearchResultData(result.message));
+
+  //   setFilterData(
+  //     searchResultData.filter(value => {
+  //       if (check_eng.test(searchInputData)) {
+  //         return value.name.toLowerCase().includes(searchInputData);
+  //       } else if (check_kor.test(searchInputData)) {
+  //         return value.name.includes(searchInputData);
+  //       }
+  //     })
+  //   );
+  // }, [searchInputData]);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/data/JanghyunData/USER_DATA.json`, {
+  //     method: "GET",
+  //     headers: {
+  //       authorization: accessToken,
+  //       "Content-Type": "application/json;charset=utf-8",
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(result => setUserData(result.message));
+  // }, []);
+
+  const searchKeywordSubmit = e => {
+    e.preventDefault();
+    if (accessToken) {
+      navigate(`/product/searchName?keyword=${searchInputData}`);
+      handleSearchResultModalClose();
+      setSearchInputData("");
+    } else if (!accessToken) {
+      alert("검색하시려면 회원 가입이 필요합니다.");
+    }
+  };
+
+  const handleInputData = e => {
+    setSearchInputData(e.target.value);
+  };
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const menuToggleClicked = () => {
+    setMenuToggle(pre => !pre);
+  };
+
+  const closeMenu = e => {
+    if (menuToggle && !refMenuBox.current.contains(e.target)) {
+      setMenuToggle(false);
+    }
+  };
+
+  const handleSearchResultModalOpen = () => {
+    setSearchResultModalOpen(true);
+  };
+
+  const handleSearchResultModalClose = () => {
+    setSearchResultModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (menuToggle) document.addEventListener("mousedown", closeMenu);
+    return () => {
+      document.removeEventListener("mousedown", closeMenu);
+    };
+  });
+
+  useEffect(() => {
+    setSearchInputData("");
+  }, [navigate]);
+
+  return (
+    <HeadWrap>
+      <Link to="/">
+        <Logo src="../../../image/janghyun/100.png" alt="logo" />
+      </Link>
+      <SearchBox
+        className="searchBoxWrap"
+        handleInputData={handleInputData}
+        searchInputData={searchInputData}
+        setSearchInputData={setSearchInputData}
+        searchResultData={searchResultData}
+        searchKeywordSubmit={searchKeywordSubmit}
+        filterData={filterData}
+        searchResultModalOpen={searchResultModalOpen}
+        setSearchResultModalOpen={setSearchResultModalOpen}
+        handleSearchResultModalOpen={handleSearchResultModalOpen}
+        handleSearchResultModalClose={handleSearchResultModalClose}
+      />
+      <MenuBox
+        className="menuBoxWrap"
+        showModal={showModal}
+        menuToggleClicked={menuToggleClicked}
+        menuToggle={menuToggle}
+        closeMenu={closeMenu}
+        refMenuBox={refMenuBox}
+        userData={userData}
+      />
+      {modalOpen && (
+        <UserModal
+          closeModal={closeModal}
+          setMenuToggle={setMenuToggle}
+          userData={userData}
+        />
+      )}
+    </HeadWrap>
+  );
+}
+
+const HeadWrap = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  min-width: 1400px;
+  height: 80px;
+  margin: -80px 0 0 0;
+  padding: 0 30px 0 30px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0px 1px 0px #fafafa;
+  background-color: #fff;
+`;
+
+const Logo = styled.img`
+  width: 60px;
+  height: 60px;
+`;
+
+export default Nav;
