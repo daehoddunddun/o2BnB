@@ -23,17 +23,32 @@ function List({ themeGrey, themePink, listData }) {
     slidesToScroll: 1,
   };
 
+  const starFilter = item => {
+    if (item === null) {
+      return "NEW";
+    } else {
+      return Math.floor(item * 100) / 100;
+    }
+  };
+
+  const priceFilter = item => {
+    let test = item;
+    let fomatting = test.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return fomatting;
+  };
+
   return (
     <>
       <ListBox>
         {listData.map(item => {
           return (
-            <ListContent key={item.id + item.name}>
+            <ListContent key={item.id}>
               <ListIconHeart>
                 <Like
+                  id={item.id}
                   themeGrey={themeGrey}
                   themePink={themePink}
-                  likeType={item.like}
+                  checkLike={item.checkLike}
                 />
               </ListIconHeart>
               <ListIconAroow>
@@ -43,24 +58,26 @@ function List({ themeGrey, themePink, listData }) {
                   color={themeGrey}
                 />
               </ListIconAroow>
-              <Slider {...settings}>
-                {item.thumbnail_image_url.map(listImg => {
+              <StyledSlider {...settings}>
+                {item.image_url.map(list => {
                   return (
-                    <ListImgBox key={listImg.id}>
-                      <ListImg src={listImg} />;
+                    <ListImgBox key={list.id}>
+                      <ListImg src={list} />;
                     </ListImgBox>
                   );
                 })}
-              </Slider>
+              </StyledSlider>
               <ListInfo>
                 <ListText>
                   <ListTitle>{item.name}</ListTitle>
-                  <ListMitter>{item.mitter}</ListMitter>
-                  <ListDate>{item.create_at}</ListDate>
-                  <ListPrice>{item.price}/박</ListPrice>
+                  <ListMitter>{item.address}</ListMitter>
+                  <ListPrice>{priceFilter(item.price)}원</ListPrice>
                 </ListText>
                 <StarBox>
-                  <ListStart>★{item.star}</ListStart>
+                  <ListStart>
+                    ★{starFilter(item.reviewStar)}
+                    {/* ★{Math.floor(item.reviewStar * 100) / 100} */}
+                  </ListStart>
                 </StarBox>
               </ListInfo>
             </ListContent>
@@ -144,22 +161,26 @@ const ListText = styled.div`
 `;
 
 const ListTitle = styled.strong`
-  font-size: 18px;
-  margin-bottom: 5px;
+  width: 200px;
+  font-size: 20px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ListMitter = styled.p`
+  width: 200px;
+  padding-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 15px;
   color: ${({ theme }) => theme.color.grey};
 `;
-
-const ListDate = styled.p`
-  font-size: 15px;
-  line-height: 1.3em;
-  color: ${({ theme }) => theme.color.grey};
-`;
-
 const ListPrice = styled.b`
+  margin-top: 30px;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.3em;
 `;
@@ -194,4 +215,12 @@ const MapBtn = styled.div`
 const MapText = styled.p`
   margin: 4px 8px 0 0;
   font-size: 14px;
+`;
+
+const StyledSlider = styled(Slider)`
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+    display: none;
+  }
 `;

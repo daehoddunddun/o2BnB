@@ -9,8 +9,12 @@ function PayMent() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({});
   useEffect(() => {
-    fetch("http://10.58.52.123:3000/book/order", {
+    fetch("http://10.58.52.191:3000/book/order", {
       method: "GET",
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
     })
       .then(res => res.json())
       .then(data => setInfo(...data.data));
@@ -45,9 +49,11 @@ function PayMent() {
   const tax = price * nights * 0.1;
 
   const goToResult = () => {
-    fetch("http://10.58.52.123:3000/book/confirm/order", {
+    fetch("http://10.58.52.191:3000/book/confirm/order", {
       method: "PATCH",
       headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({
@@ -84,7 +90,7 @@ function PayMent() {
     setInputValues({ ...inputValues, [name]: value });
   };
 
-  const totalPrice = "242000";
+  const totalPrice = "501600";
 
   const kakaoPay = () => {
     fetch("https://kapi.kakao.com/v1/payment/ready", {

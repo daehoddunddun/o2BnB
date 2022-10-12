@@ -12,7 +12,7 @@ import {
   RiFilter3Fill,
 } from "react-icons/ri";
 
-function Menu({ themeGrey, themeBlack, test }) {
+function Menu({ themeGrey, themeBlack, test, listData, setListData }) {
   const menuList = [
     {
       id: 1,
@@ -75,7 +75,13 @@ function Menu({ themeGrey, themeBlack, test }) {
             <RiFilter3Fill size="28" color={themeGrey} />
             필터
           </MenuBtn>
-          {isFilter && <FliterModal filterBtn={filterBtn} />}
+          {isFilter && (
+            <FliterModal
+              filterBtn={filterBtn}
+              listData={listData}
+              setListData={setListData}
+            />
+          )}
         </FilterTab>
       </MenuBox>
     </div>

@@ -11,13 +11,14 @@ import "slick-carousel/slick/slick-theme.css";
 
 function WishList() {
   const [test, setTest] = useState([]);
-  useEffect(() => {
-    fetch("/data/test.json")
-      .then(res => res.json())
-      .then(result => {
-        setTest(result);
-      });
-  }, []);
+  console.log(test);
+  // useEffect(() => {
+  //   fetch("/data/test.json")
+  //     .then(res => res.json())
+  //     .then(result => {
+  //       setTest(result);
+  //     });
+  // }, []);
 
   const starFilter = item => {
     if (item === null) {
@@ -41,17 +42,16 @@ function WishList() {
   const clickMap = data => {
     setMapData({ id: data.id, lat: data.lat, long: data.long });
   };
-  // useEffect(() => {
-  //   fetch("http://10.58.52.191:3000/likes", {
-  //     method: "GET",
-  //     headers: {
-  //       authorization:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-  //     },
-  //   })
-  //     .then(response => response.json())
-  //     .then(result => setTest(result.message));
-  // }, []);
+  useEffect(() => {
+    fetch("http://10.58.52.191:3000/likes", {
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
+    })
+      .then(response => response.json())
+      .then(result => setTest(result.message));
+  }, []);
   // console.log(test);
 
   const settings = {

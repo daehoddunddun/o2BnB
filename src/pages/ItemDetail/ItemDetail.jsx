@@ -11,26 +11,24 @@ function ItemDetail() {
   const [reviewData, setReviewData] = useState({ star: null, reviews: [] });
 
   useEffect(() => {
-    // `http://172.20.10.6:3000/product/detail/${productId}`;
-    fetch("/data/ITEMDETAIL_DATA.json", {
+    fetch(`http://10.58.52.191:3000/product/detail/${3}`, {
       method: "GET",
-      // headers: {
-      //   authorization:
-      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-      // },
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
     })
       .then(res => res.json())
       // .then(data => console.log(data));
       .then(data => setDetail(data))
       .catch(error => console.log(error));
 
-    fetch("/data/REIVIEW_DATA.json", {
-      // `http://10.58.52.123:3000/review/${productId}`
+    fetch(`http://10.58.52.191:3000/reviews/1`, {
       method: "GET",
-      // headers: {
-      //   authorization:
-      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-      // },
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
     })
       .then(res => res.json())
       .then(({ data }) => {

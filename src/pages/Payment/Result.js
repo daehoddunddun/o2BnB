@@ -3,7 +3,13 @@ import styled from "styled-components";
 
 function Result() {
   useEffect(() => {
-    fetch("http://10.58.52.123:3000/book/payment")
+    fetch("http://10.58.52.191:3000/book/payment", {
+      method: "GET",
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setInfo(...data.data);
