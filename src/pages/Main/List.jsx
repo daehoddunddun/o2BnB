@@ -10,7 +10,7 @@ import Like from "./Like";
 
 function List({ themeGrey, themePink, listData }) {
   const [isMap, setIsMap] = useState(false);
-
+  console.log("?", listData);
   const mapBtn = () => {
     setIsMap(!isMap);
   };
@@ -59,7 +59,7 @@ function List({ themeGrey, themePink, listData }) {
                 />
               </ListIconAroow>
               <StyledSlider {...settings}>
-                {item.thumbnail_image_url.map(list => {
+                {item.image_url.map(list => {
                   return (
                     <ListImgBox key={list.id}>
                       <ListImg src={list} />;

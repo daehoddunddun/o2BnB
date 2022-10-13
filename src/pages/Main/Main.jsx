@@ -3,6 +3,7 @@ import styled from "styled-components";
 import theme from "../../styles/theme";
 import List from "./List";
 import Menu from "./Menu";
+import Loading from "../../components/Loading/Loading";
 
 function Main() {
   const [currTab, setCurrTab] = useState("all");
@@ -12,24 +13,27 @@ function Main() {
   };
 
   const [listData, setListData] = useState([]);
-  console.log(listData);
-
-  // useEffect(() => {
-  //   fetch(`http://10.58.52.191:3000/product/${currTab}`, {
-  //     headers: {
-  //       authorization:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-  //     },
-  //   })
-  //     .then(response => response.json())
-  //     .then(result => setListData(result.message));
-  // }, [currTab]);
+  console.log("??", listData);
 
   useEffect(() => {
-    fetch(`/data/${currTab}.json`)
+    fetch(`http://10.58.52.191:3000/product/${currTab}`, {
+      headers: {
+        authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+      },
+    })
       .then(response => response.json())
-      .then(result => setListData(result));
+      .then(result => setListData(result.message));
+    if (listData != null) {
+      setLoading(false);
+    }
   }, [currTab]);
+
+  // useEffect(() => {
+  //   fetch(`/data/${currTab}.json`)
+  //     .then(response => response.json())
+  //     .then(result => setListData(result));
+  // }, [currTab]);
 
   // const [mapList, setMapList] = useState([]);
 
@@ -43,23 +47,30 @@ function Main() {
   //     .then(response => response.json())
   //     .then(result => console.log("ㄴㄴ", result));
   // }); 지도 데이터 잘 드렁옴
+  const [loading, setLoading] = useState(true);
 
   return (
-    <MainBox>
-      <Menu
-        themeGrey={theme.color.grey}
-        themeBlack={theme.color.black}
-        listData={listData}
-        setListData={setListData}
-        test={test}
-      />
-      <List
-        themeGrey={theme.color.grey}
-        themeBlack={theme.color.black}
-        themePink={theme.color.pink}
-        listData={listData}
-      />
-    </MainBox>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <MainBox>
+          <Menu
+            themeGrey={theme.color.grey}
+            themeBlack={theme.color.black}
+            listData={listData}
+            setListData={setListData}
+            test={test}
+          />
+          <List
+            themeGrey={theme.color.grey}
+            themeBlack={theme.color.black}
+            themePink={theme.color.pink}
+            listData={listData}
+          />
+        </MainBox>
+      )}
+    </>
   );
 }
 

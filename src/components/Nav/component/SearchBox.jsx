@@ -61,7 +61,7 @@ function SearchBox({
         >
           {filterData?.map(data => {
             return (
-              <Link to={`/product/detail?keyword=${data.name}`} key={data.id}>
+              <Link to={`/product/detail?${filterData[0]?.id}`} key={data.id}>
                 <SearchResultText>{data.name}</SearchResultText>
               </Link>
             );

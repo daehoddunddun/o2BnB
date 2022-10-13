@@ -60,43 +60,10 @@ function Nav(props) {
       .then(result => setUserData(result.message));
   }, []);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/data/JanghyunData/HOTEL_DATA.json`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json;charset=utf-8",
-  //     },
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => setSearchResultData(result.message));
-
-  //   setFilterData(
-  //     searchResultData.filter(value => {
-  //       if (check_eng.test(searchInputData)) {
-  //         return value.name.toLowerCase().includes(searchInputData);
-  //       } else if (check_kor.test(searchInputData)) {
-  //         return value.name.includes(searchInputData);
-  //       }
-  //     })
-  //   );
-  // }, [searchInputData]);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/data/JanghyunData/USER_DATA.json`, {
-  //     method: "GET",
-  //     headers: {
-  //       authorization: accessToken,
-  //       "Content-Type": "application/json;charset=utf-8",
-  //     },
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => setUserData(result.message));
-  // }, []);
-
   const searchKeywordSubmit = e => {
     e.preventDefault();
     if (accessToken) {
-      navigate(`/product/searchName?keyword=${searchInputData}`);
+      navigate(`/product/product/detail?${filterData[0]?.id}`);
       handleSearchResultModalClose();
       setSearchInputData("");
     } else if (!accessToken) {
@@ -197,6 +164,7 @@ const HeadWrap = styled.div`
   border: 1px solid #ebebeb;
   box-shadow: 0px 1px 0px #fafafa;
   background-color: #fff;
+  z-index: 10;
 
   /* background-color: ${props => props.theme.color.black}; */
 `;
