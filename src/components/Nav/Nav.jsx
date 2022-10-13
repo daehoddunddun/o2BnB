@@ -17,8 +17,6 @@ function Nav(props) {
   const refMenuBox = useRef();
   const location = useLocation();
   const navigate = useNavigate();
-  const check_eng = /[a-zA-Z]/;
-  const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
   const pathname = location.pathname;
 
@@ -37,15 +35,11 @@ function Nav(props) {
       .then(res => res.json())
       .then(result => setSearchResultData(result.message));
 
-    setFilterData(
-      searchResultData.filter(value => {
-        if (check_eng.test(searchInputData)) {
-          return value.name.toLowerCase().includes(searchInputData);
-        } else if (check_kor.test(searchInputData)) {
-          return value.name.includes(searchInputData);
-        }
-      })
-    );
+    // setFilterData(
+    //   searchResultData.filter(value => {
+    //     return value.name.toLowerCase().includes(searchInputData.toLowerCase());
+    //   })
+    // );
   }, [searchInputData]);
 
   useEffect(() => {
@@ -63,7 +57,7 @@ function Nav(props) {
   const searchKeywordSubmit = e => {
     e.preventDefault();
     if (accessToken) {
-      navigate(`/product/product/detail?${filterData[0]?.id}`);
+      navigate(`/product/detail?${searchResultData[0]?.id}`);
       handleSearchResultModalClose();
       setSearchInputData("");
     } else if (!accessToken) {
@@ -111,8 +105,7 @@ function Nav(props) {
   useEffect(() => {
     setSearchInputData("");
   }, [navigate]);
-  {
-  }
+
   return (
     <HeadWrap pathname={pathname}>
       <Link to="/">
