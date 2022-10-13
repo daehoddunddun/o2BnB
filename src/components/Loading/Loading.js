@@ -4,20 +4,17 @@ import styled from "styled-components";
 
 function Loading() {
   return (
-    <>
-      <ContentBack />
-      <div className="contentWrap">
-        <ContentWrap>
-          <ScaleLoader
-            color="#36d7b7"
-            height={15}
-            width={5}
-            radius={2}
-            margin={2}
-          />
-        </ContentWrap>
-      </div>
-    </>
+    <ContentBack>
+      <ContentWrap>
+        <ScaleLoader
+          color="#f90939"
+          height={30}
+          width={10}
+          radius={2}
+          margin={2}
+        />
+      </ContentWrap>
+    </ContentBack>
   );
 }
 
@@ -33,13 +30,11 @@ const ContentBack = styled.div`
 const ContentWrap = styled.div`
   ${({ theme }) => theme.flexCenter}
   flex-direction: column;
-  position: absolute;
-  top: 30%;
+
   left: 50%;
+  top: 50%;
+  position: relative;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 150px;
-  background-color: white;
   border-radius: 2px;
 `;
 export default Loading;

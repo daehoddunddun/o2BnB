@@ -5,7 +5,7 @@ import SearchBox from "./component/SearchBox";
 import MenuBox from "./component/MenuBox";
 import styled from "styled-components";
 
-function Nav() {
+function Nav(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const [searchInputData, setSearchInputData] = useState("");
@@ -19,6 +19,10 @@ function Nav() {
   const navigate = useNavigate();
   const check_eng = /[a-zA-Z]/;
   const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+  const pathname = location.pathname;
+
+  console.log("pathname : ", pathname);
 
   useEffect(() => {
     fetch(
@@ -140,9 +144,10 @@ function Nav() {
   useEffect(() => {
     setSearchInputData("");
   }, [navigate]);
-
+  {
+  }
   return (
-    <HeadWrap>
+    <HeadWrap pathname={pathname}>
       <Link to="/">
         <Logo src="../../../image/janghyun/100.png" alt="logo" />
       </Link>
@@ -183,7 +188,7 @@ const HeadWrap = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: fixed;
+  position: ${props => (props.pathname === "/" ? "fixed" : "relative")};
   width: 100%;
   min-width: 1400px;
   height: 80px;
@@ -192,6 +197,8 @@ const HeadWrap = styled.div`
   border: 1px solid #ebebeb;
   box-shadow: 0px 1px 0px #fafafa;
   background-color: #fff;
+
+  /* background-color: ${props => props.theme.color.black}; */
 `;
 
 const Logo = styled.img`

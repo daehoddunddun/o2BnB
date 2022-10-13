@@ -9,6 +9,7 @@ function PayMent() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({});
   useEffect(() => {
+    setLoading(false);
     fetch("http://10.58.52.191:3000/book/order", {
       method: "GET",
       headers: {
@@ -79,9 +80,6 @@ function PayMent() {
   // console.log(rangeDate);
 
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   const [inputValues, setInputValues] = useState({});
 
@@ -195,182 +193,191 @@ function PayMent() {
   };
 
   return (
-    <Container>
-      <Header>
-        <button>
-          {loading && <Loading />}
-          <FaArrowLeft />
-        </button>
-        <p>예약요청</p>
-      </Header>
-      <ContentContainer>
-        <LeftContent>
-          <PortionContainer>
-            <SubHeader>예약정보</SubHeader>
-            <DateContainer>
-              <div>
-                <SmallHeader>날짜</SmallHeader>
-                <SmallestHeader>{AccommodationDate}</SmallestHeader>
-              </div>
-              <SmallHeader>수정</SmallHeader>
-            </DateContainer>
-            <DateContainer>
-              <div>
-                <SmallHeader>게스트</SmallHeader>
-                <SmallestHeader>게스트{guest_count}명</SmallestHeader>
-              </div>
-              <SmallHeader>수정</SmallHeader>
-            </DateContainer>
-          </PortionContainer>
-          <PortionContainer>
-            <SubHeader>결제 방식 선택하기</SubHeader>
-            <DateContainer>
-              <div>
-                <SmallHeader>전액결제</SmallHeader>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Header>
+            <button>
+              {loading && <Loading />}
+              <FaArrowLeft />
+            </button>
+            <p>예약요청</p>
+          </Header>
+          <ContentContainer>
+            <LeftContent>
+              <PortionContainer>
+                <SubHeader>예약정보</SubHeader>
+                <DateContainer>
+                  <div>
+                    <SmallHeader>날짜</SmallHeader>
+                    <SmallestHeader>{AccommodationDate}</SmallestHeader>
+                  </div>
+                  <SmallHeader>수정</SmallHeader>
+                </DateContainer>
+                <DateContainer>
+                  <div>
+                    <SmallHeader>게스트</SmallHeader>
+                    <SmallestHeader>게스트{guest_count}명</SmallestHeader>
+                  </div>
+                  <SmallHeader>수정</SmallHeader>
+                </DateContainer>
+              </PortionContainer>
+              <PortionContainer>
+                <SubHeader>결제 방식 선택하기</SubHeader>
+                <DateContainer>
+                  <div>
+                    <SmallHeader>전액결제</SmallHeader>
+                    <SmallestHeader>
+                      총액을 결제하시면 모든 절차가 완료됩니다.
+                    </SmallestHeader>
+                  </div>
+                  <SmallHeader>₩{price}</SmallHeader>
+                </DateContainer>
+                <DateContainer>
+                  <div>
+                    <SmallHeader>
+                      요금 일부는 지금 결제, 나머지는 나중에 결제
+                    </SmallHeader>
+                    <SmallestHeader>
+                      지금 ₩{price / 2}을(를) 결제하시면, 나머지 금액{price / 2}
+                      은 동일한 결제수단으로 2022년 10월 9일 자동 청구됩니다.
+                      추가 수수료는 없습니다.
+                    </SmallestHeader>
+                  </div>
+                  <SmallHeader>₩{price / 2}</SmallHeader>
+                </DateContainer>
+              </PortionContainer>
+              <PortionContainer>
+                <CardHeaderWrap>
+                  <SubHeader>결제수단</SubHeader>
+
+                  <ImgContainer>
+                    <CardImg
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_visa.0adea522bb26bd90821a8fade4911913.svg"
+                      alt="비자카드"
+                    />
+                    <CardImg
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_amex.84088b520ca1b3384cb71398095627da.svg"
+                      alt="비자카드"
+                    />
+                    <CardImg
+                      src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_mastercard.f18379cf1f27d22abd9e9cf44085d149.svg"
+                      alt="비자카드"
+                    />
+                  </ImgContainer>
+                </CardHeaderWrap>
+                <SelectCardWrap>
+                  <SelectCard
+                    onChange={handleInput}
+                    handleInput={handleInput}
+                  />
+                </SelectCardWrap>
+                <SmallHeader>쿠폰 입력하기</SmallHeader>
+              </PortionContainer>
+              <PortionContainer>
+                <SubHeader>필수 입력 정보</SubHeader>
+                <SmallHeader>호스트에게 메시지 보내기</SmallHeader>
                 <SmallestHeader>
-                  총액을 결제하시면 모든 절차가 완료됩니다.
+                  호스트에게 여행목적과 도착 예정 시간을 알려주세요
                 </SmallestHeader>
-              </div>
-              <SmallHeader>₩{price}</SmallHeader>
-            </DateContainer>
-            <DateContainer>
-              <div>
+                <ProfileContainer>
+                  <ProfileWrap>
+                    <ProfileImg
+                      src="https://a0.muscache.com/im/pictures/user/054da6b8-f15e-44e9-9ff6-46f8ce32704f.jpg?aki_policy=profile_x_medium"
+                      alt="프로필이미지"
+                    />
+                    <ProfileText>
+                      <p>Onda</p>
+                      <span>에어비앤비 가입:2020년</span>
+                    </ProfileText>
+                  </ProfileWrap>
+                  <ProfileInput />
+                </ProfileContainer>
+              </PortionContainer>
+
+              <PortionContainer>
+                <SubHeader>환불 정책</SubHeader>
                 <SmallHeader>
-                  요금 일부는 지금 결제, 나머지는 나중에 결제
+                  10월 6일 오후 11:03 전까지 무료로 취소하실 수 있습니다.
                 </SmallHeader>
                 <SmallestHeader>
-                  지금 ₩{price / 2}을(를) 결제하시면, 나머지 금액{price / 2}은
-                  동일한 결제수단으로 2022년 10월 9일 자동 청구됩니다. 추가
-                  수수료는 없습니다.
+                  10월 17일 전에 취소하면 부분 환불을 받으실 수 있습니다.
                 </SmallestHeader>
-              </div>
-              <SmallHeader>₩{price / 2}</SmallHeader>
-            </DateContainer>
-          </PortionContainer>
-          <PortionContainer>
-            <CardHeaderWrap>
-              <SubHeader>결제수단</SubHeader>
-
-              <ImgContainer>
-                <CardImg
-                  src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_visa.0adea522bb26bd90821a8fade4911913.svg"
-                  alt="비자카드"
-                />
-                <CardImg
-                  src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_amex.84088b520ca1b3384cb71398095627da.svg"
-                  alt="비자카드"
-                />
-                <CardImg
-                  src="//a0.muscache.com/airbnb/static/packages/assets/frontend/legacy-shared/svgs/payments/logo_mastercard.f18379cf1f27d22abd9e9cf44085d149.svg"
-                  alt="비자카드"
-                />
-              </ImgContainer>
-            </CardHeaderWrap>
-            <SelectCardWrap>
-              <SelectCard onChange={handleInput} handleInput={handleInput} />
-            </SelectCardWrap>
-            <SmallHeader>쿠폰 입력하기</SmallHeader>
-          </PortionContainer>
-          <PortionContainer>
-            <SubHeader>필수 입력 정보</SubHeader>
-            <SmallHeader>호스트에게 메시지 보내기</SmallHeader>
-            <SmallestHeader>
-              호스트에게 여행목적과 도착 예정 시간을 알려주세요
-            </SmallestHeader>
-            <ProfileContainer>
-              <ProfileWrap>
-                <ProfileImg
-                  src="https://a0.muscache.com/im/pictures/user/054da6b8-f15e-44e9-9ff6-46f8ce32704f.jpg?aki_policy=profile_x_medium"
-                  alt="프로필이미지"
-                />
-                <ProfileText>
-                  <p>Onda</p>
-                  <span>에어비앤비 가입:2020년</span>
-                </ProfileText>
-              </ProfileWrap>
-              <ProfileInput />
-            </ProfileContainer>
-          </PortionContainer>
-
-          <PortionContainer>
-            <SubHeader>환불 정책</SubHeader>
-            <SmallHeader>
-              10월 6일 오후 11:03 전까지 무료로 취소하실 수 있습니다.
-            </SmallHeader>
-            <SmallestHeader>
-              10월 17일 전에 취소하면 부분 환불을 받으실 수 있습니다.
-            </SmallestHeader>
-          </PortionContainer>
-          <PortionContainer2>
-            <RiCalendarTodoFill size="35" color="red" />
-            <div>
-              <Notice>
-                호스트가 24시간 이내 예약 요청을 수락하기 전까지는 예약이 아직
-                확정된 것이 아닙니다.
-              </Notice>
-              <NoticeSub>
-                예약 확정 전까지는 요금이 청구되지 않습니다.
-              </NoticeSub>
-            </div>
-          </PortionContainer2>
-          <PortionContainer>
-            <span>
-              아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 에어비앤비
-              재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게 있을
-              경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는
-              사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면 표시된
-              총액이 결제되는 데 동의합니다.
-            </span>
-          </PortionContainer>
-
-          <BookButton onClick={clickHandler}>예약하기</BookButton>
-        </LeftContent>
-        <RightContent>
-          <ConfirmInfoContainer>
-            <ContainerSection>
-              <SummaryWrap>
-                <ConfirmImg
-                  src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-51950498/original/5b248a50-093a-4b07-8925-04d38f9e4241.jpeg?aki_policy=large"
-                  alt="확정이미지"
-                />
+              </PortionContainer>
+              <PortionContainer2>
+                <RiCalendarTodoFill size="35" color="red" />
                 <div>
-                  <span>{name}</span>
-                  <p>{content}</p>
+                  <Notice>
+                    호스트가 24시간 이내 예약 요청을 수락하기 전까지는 예약이
+                    아직 확정된 것이 아닙니다.
+                  </Notice>
+                  <NoticeSub>
+                    예약 확정 전까지는 요금이 청구되지 않습니다.
+                  </NoticeSub>
                 </div>
-              </SummaryWrap>
-            </ContainerSection>
-            <ContainerSection>
-              <Promotion>
-                <span>에어 커버</span>를 통한 예약 보호
-              </Promotion>
-            </ContainerSection>
-            <ContainerSection>
-              <Fee>요금 세부정보</Fee>
+              </PortionContainer2>
+              <PortionContainer>
+                <span>
+                  아래 버튼을 선택하면 호스트가 설정한 숙소 이용규칙, 에어비앤비
+                  재예약 및 환불 정책에 동의하며, 피해에 대한 책임이 본인에게
+                  있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수
+                  있다는 사실에 동의하는 것입니다. 호스트가 예약 요청을 수락하면
+                  표시된 총액이 결제되는 데 동의합니다.
+                </span>
+              </PortionContainer>
 
-              <FeeDetail>
-                <p>
-                  ₩{price} x {nights}박
-                </p>
-                <p>₩{price * nights}</p>
-              </FeeDetail>
-              <FeeDetail>
-                <p>서비스 수수료</p>
-                <p>₩{tax}</p>
-              </FeeDetail>
-            </ContainerSection>
-            <ContainerSection>
-              <FeeDetail2>
-                <p>총 합계 (KRW)</p>
-                <p>₩{price * nights + tax}</p>
-              </FeeDetail2>
-            </ContainerSection>
-          </ConfirmInfoContainer>
-        </RightContent>
-      </ContentContainer>
+              <BookButton onClick={clickHandler}>예약하기</BookButton>
+            </LeftContent>
+            <RightContent>
+              <ConfirmInfoContainer>
+                <ContainerSection>
+                  <SummaryWrap>
+                    <ConfirmImg
+                      src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-51950498/original/5b248a50-093a-4b07-8925-04d38f9e4241.jpeg?aki_policy=large"
+                      alt="확정이미지"
+                    />
+                    <div>
+                      <span>{name}</span>
+                      <p>{content}</p>
+                    </div>
+                  </SummaryWrap>
+                </ContainerSection>
+                <ContainerSection>
+                  <Promotion>
+                    <span>에어 커버</span>를 통한 예약 보호
+                  </Promotion>
+                </ContainerSection>
+                <ContainerSection>
+                  <Fee>요금 세부정보</Fee>
 
-      {/*
-       */}
-    </Container>
+                  <FeeDetail>
+                    <p>
+                      ₩{price} x {nights}박
+                    </p>
+                    <p>₩{price * nights}</p>
+                  </FeeDetail>
+                  <FeeDetail>
+                    <p>서비스 수수료</p>
+                    <p>₩{tax}</p>
+                  </FeeDetail>
+                </ContainerSection>
+                <ContainerSection>
+                  <FeeDetail2>
+                    <p>총 합계 (KRW)</p>
+                    <p>₩{price * nights + tax}</p>
+                  </FeeDetail2>
+                </ContainerSection>
+              </ConfirmInfoContainer>
+            </RightContent>
+          </ContentContainer>
+
+          {/*
+           */}
+        </Container>
+      )}
+    </>
   );
 }
 const Container = styled.div`
@@ -409,7 +416,7 @@ const RightContent = styled.div`
   width: 400px;
   height: 100%;
   position: sticky;
-  top: 50px;
+  top: 130px;
 `;
 
 const Header = styled.div`
@@ -605,6 +612,7 @@ const BookButton = styled.button`
   height: 50px;
   border-radius: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
   background-color: #f42d56;
   color: white;
 `;
