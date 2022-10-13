@@ -25,18 +25,25 @@ function PayMent() {
     info;
 
   const bookingDate = new Date(start_date);
+
   const bookEndDate = new Date(end_date);
 
   const AccommodationDate = `${bookingDate.getFullYear()}년${
     bookingDate.getMonth() + 1
   }월${bookingDate.getDate()}일~${bookEndDate.getDate()}일`;
 
+  console.log(bookingDate.getMonth(), "aaaa");
+
   const bookYear = bookingDate.getFullYear();
+
   const bookMonth = bookingDate.getMonth() + 1;
+
   const bookDate = bookingDate.getDate();
 
   const bookEndYear = bookEndDate.getFullYear();
+
   const bookEndMonth = bookEndDate.getMonth() + 1;
+
   const booklastDate = bookEndDate.getDate();
 
   const convertBookDate = `${bookYear}-${
@@ -416,7 +423,7 @@ const RightContent = styled.div`
   width: 400px;
   height: 100%;
   position: sticky;
-  top: 130px;
+  top: 50px;
 `;
 
 const Header = styled.div`

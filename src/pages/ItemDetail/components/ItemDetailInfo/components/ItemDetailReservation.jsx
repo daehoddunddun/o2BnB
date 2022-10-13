@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Calendar from "../../Calendar";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function ItemDetailReservation({
   startDate,
@@ -11,6 +12,8 @@ function ItemDetailReservation({
   excludeDates,
   detail,
 }) {
+  const navigate = useNavigate();
+
   const [guests, setGuests] = useState(1);
 
   const handleGuestPlus = () => {
@@ -76,9 +79,13 @@ function ItemDetailReservation({
         startDate: startDateData,
         endDate: endDateData,
       }),
-    }).then(res => res.json());
+    })
+      .then(res => res.json())
+      .then(result => {
+        navigate("/payment");
+      });
   };
-
+  console.log(startDate, "dkdkdk");
   return (
     <ReservationContainer>
       <Price>

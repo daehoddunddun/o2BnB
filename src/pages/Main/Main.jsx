@@ -3,6 +3,7 @@ import styled from "styled-components";
 import theme from "../../styles/theme";
 import List from "./List";
 import Menu from "./Menu";
+import Loading from "../../components/Loading/Loading";
 
 function Main() {
   const [currTab, setCurrTab] = useState("all");
@@ -11,9 +12,11 @@ function Main() {
     setCurrTab(id);
   };
 
-  const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const [listData, setListData] = useState([]);
   useEffect(() => {
+    setLoading(true);
     fetch(`http://10.58.52.191:3000/product/${currTab}`, {
       headers: {
         authorization:
@@ -21,7 +24,10 @@ function Main() {
       },
     })
       .then(response => response.json())
-      .then(result => setListData(result.message));
+      .then(result => {
+        setListData(result.message);
+        setLoading(false);
+      });
   }, [currTab]);
 
   // const [mapList, setMapList] = useState([]);
@@ -38,21 +44,27 @@ function Main() {
   // }); 지도 데이터 잘 드렁옴
 
   return (
-    <MainBox>
-      <Menu
-        themeGrey={theme.color.grey}
-        themeBlack={theme.color.black}
-        listData={listData}
-        setListData={setListData}
-        test={test}
-      />
-      <List
-        themeGrey={theme.color.grey}
-        themeBlack={theme.color.black}
-        themePink={theme.color.pink}
-        listData={listData}
-      />
-    </MainBox>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <MainBox>
+          <Menu
+            themeGrey={theme.color.grey}
+            themeBlack={theme.color.black}
+            listData={listData}
+            setListData={setListData}
+            test={test}
+          />
+          <List
+            themeGrey={theme.color.grey}
+            themeBlack={theme.color.black}
+            themePink={theme.color.pink}
+            listData={listData}
+          />
+        </MainBox>
+      )}
+    </>
   );
 }
 
