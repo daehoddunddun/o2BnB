@@ -19,7 +19,7 @@ function Router() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/item-detail" element={<ItemDetail />} />
+        <Route path="/item-detail/:id" element={<ItemDetail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/wish-list" element={<WishList />} />

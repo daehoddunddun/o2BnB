@@ -59,7 +59,7 @@ function List({ themeGrey, themePink, listData }) {
                 />
               </ListIconAroow>
               <StyledSlider {...settings}>
-                {item.image_url.map(list => {
+                {item.thumbnail_image_url.map(list => {
                   return (
                     <ListImgBox key={list.id}>
                       <ListImg src={list} />;

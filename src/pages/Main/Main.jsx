@@ -12,16 +12,23 @@ function Main() {
   };
 
   const [listData, setListData] = useState([]);
+  console.log(listData);
+
+  // useEffect(() => {
+  //   fetch(`http://10.58.52.191:3000/product/${currTab}`, {
+  //     headers: {
+  //       authorization:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+  //     },
+  //   })
+  //     .then(response => response.json())
+  //     .then(result => setListData(result.message));
+  // }, [currTab]);
 
   useEffect(() => {
-    fetch(`http://10.58.52.191:3000/product/${currTab}`, {
-      headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-      },
-    })
+    fetch(`/data/${currTab}.json`)
       .then(response => response.json())
-      .then(result => setListData(result.message));
+      .then(result => setListData(result));
   }, [currTab]);
 
   // const [mapList, setMapList] = useState([]);
