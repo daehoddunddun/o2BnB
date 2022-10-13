@@ -51,7 +51,7 @@ function Nav(props) {
   const searchKeywordSubmit = e => {
     e.preventDefault();
     if (accessToken) {
-      navigate(`/product/detail?${searchResultData[0]?.id}`);
+      navigate(`/product/item-detail?${searchResultData[0]?.id}`);
       handleSearchResultModalClose();
       setSearchInputData("");
     } else if (!accessToken) {

@@ -60,7 +60,7 @@ function SearchBox({
           {newSearchResultData.map(data => {
             return (
               <Link
-                to={`/product/detail?${newSearchResultData[0].id}`}
+                to={`/product/item-detail?${newSearchResultData[0].id}`}
                 key={data.id}
               >
                 <SearchResultText>{data.name}</SearchResultText>
