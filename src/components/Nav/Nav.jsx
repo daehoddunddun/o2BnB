@@ -11,7 +11,7 @@ function Nav(props) {
   const [searchInputData, setSearchInputData] = useState("");
   const [searchResultData, setSearchResultData] = useState([]);
   const [userData, setUserData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
+  // const [filterData, setFilterData] = useState([]);
   const [searchResultModalOpen, setSearchResultModalOpen] = useState(false);
   const accessToken = localStorage.getItem("TOKEN");
   const refMenuBox = useRef();
@@ -20,7 +20,7 @@ function Nav(props) {
 
   const pathname = location.pathname;
 
-  console.log("pathname : ", pathname);
+  // console.log("pathname : ", pathname);
 
   useEffect(() => {
     fetch(
@@ -34,12 +34,6 @@ function Nav(props) {
     )
       .then(res => res.json())
       .then(result => setSearchResultData(result.message));
-
-    // setFilterData(
-    //   searchResultData.filter(value => {
-    //     return value.name.toLowerCase().includes(searchInputData.toLowerCase());
-    //   })
-    // );
   }, [searchInputData]);
 
   useEffect(() => {
@@ -118,7 +112,7 @@ function Nav(props) {
         setSearchInputData={setSearchInputData}
         searchResultData={searchResultData}
         searchKeywordSubmit={searchKeywordSubmit}
-        filterData={filterData}
+        // filterData={filterData}
         searchResultModalOpen={searchResultModalOpen}
         setSearchResultModalOpen={setSearchResultModalOpen}
         handleSearchResultModalOpen={handleSearchResultModalOpen}
