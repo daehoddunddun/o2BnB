@@ -11,15 +11,15 @@ function ItemDetail() {
   const [detail, setDetail] = useState(null);
   const [reviewData, setReviewData] = useState({ star: null, reviews: [] });
 
+  const accessToken = localStorage.getItem("TOKEN");
+
   const params = useParams();
   const { productId } = params;
-
   useEffect(() => {
     fetch(`http://10.58.52.191:3000/product/detail/${productId}`, {
       method: "GET",
       headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
     })
       .then(res => res.json())
@@ -29,8 +29,7 @@ function ItemDetail() {
     fetch(`http://10.58.52.191:3000/reviews/${productId}`, {
       method: "GET",
       headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
     })
       .then(res => res.json())

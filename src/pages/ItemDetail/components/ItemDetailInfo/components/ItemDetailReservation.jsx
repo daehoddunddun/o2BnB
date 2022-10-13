@@ -63,15 +63,15 @@ function ItemDetailReservation({
   const totalData = String(total);
   const startDateData = `${startDaTeYear}-${startDateMonth}-${startDateDay}`;
   const endDateData = `${endDateYear}-${endDateMonth}-${endDateDay}`;
-  // const accessToken = localStorage.getItem("token");
+
+  const accessToken = localStorage.getItem("TOKEN");
 
   const submitReservation = () => {
     fetch(`http://10.58.52.191:3000/book/${1}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
       body: JSON.stringify({
         price: totalData,

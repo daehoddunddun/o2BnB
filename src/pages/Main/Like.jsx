@@ -3,6 +3,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 function Like({ themeGrey, themePink, checkLike, id }) {
   const [isLike, setIsLike] = useState(Boolean(Number(checkLike)));
+  const accessToken = localStorage.getItem("TOKEN");
 
   const likeBtn = id => {
     setIsLike(!isLike);
@@ -10,8 +11,7 @@ function Like({ themeGrey, themePink, checkLike, id }) {
       fetch(`http://10.58.52.191:3000/likes/${id}`, {
         method: "POST",
         headers: {
-          authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+          authorization: accessToken,
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),
@@ -22,8 +22,7 @@ function Like({ themeGrey, themePink, checkLike, id }) {
       fetch(`http://10.58.52.191:3000/likes/${id}`, {
         method: "DELETE",
         headers: {
-          authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+          authorization: accessToken,
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),

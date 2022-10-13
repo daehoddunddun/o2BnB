@@ -8,17 +8,10 @@ import Slider from "react-slick";
 import theme from "../../styles/theme";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from "react-router-dom";
 
 function WishList() {
   const [test, setTest] = useState([]);
-  console.log(test);
-  // useEffect(() => {
-  //   fetch("/data/test.json")
-  //     .then(res => res.json())
-  //     .then(result => {
-  //       setTest(result);
-  //     });
-  // }, []);
 
   const starFilter = item => {
     if (item === null) {
@@ -42,17 +35,18 @@ function WishList() {
   const clickMap = data => {
     setMapData({ id: data.id, lat: data.lat, long: data.long });
   };
+
+  const accessToken = localStorage.getItem("TOKEN");
+
   useEffect(() => {
     fetch("http://10.58.52.191:3000/likes", {
       headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
     })
       .then(response => response.json())
       .then(result => setTest(result.message));
   }, []);
-  console.log(test);
 
   const settings = {
     dots: true,
@@ -60,6 +54,15 @@ function WishList() {
     speed: 500,
     slidesToShow: 1,
   };
+
+  const navigate = useNavigate();
+
+  const moveItemDetail = id => {
+    console.log(id);
+    navigate(`/item-detail/${id}`);
+  };
+  //
+
   return (
     <div>
       <WishWrap>
@@ -88,7 +91,12 @@ function WishList() {
                     <StyledSlider {...settings}>
                       {item.image_url.map(list => {
                         return (
-                          <ImgBox key={list.id}>
+                          <ImgBox
+                            key={list.id}
+                            onClick={() => {
+                              moveItemDetail(item.product_id);
+                            }}
+                          >
                             <ContentsImg src={list} />
                           </ImgBox>
                         );
@@ -112,6 +120,7 @@ function WishList() {
                     themeGrey={theme.color.grey}
                     themeBlack={theme.color.black}
                     themePink={theme.color.pink}
+                    id={item.product_id}
                   />
                 </ContentsWrap>
               );

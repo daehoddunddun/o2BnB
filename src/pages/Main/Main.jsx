@@ -13,21 +13,32 @@ function Main() {
   };
 
   const [listData, setListData] = useState([]);
-  console.log("??", listData);
+  const accessToken = localStorage.getItem("TOKEN");
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`http://10.58.52.191:3000/product/${currTab}`, {
-      headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-      },
-    })
-      .then(response => response.json())
-      .then(result => {
-        setListData(result.message);
-        setLoading(false);
-      });
+    if (accessToken != undefined) {
+      console.log("너니?");
+      setLoading(true);
+      fetch(`http://10.58.52.191:3000/product/${currTab}`, {
+        headers: {
+          authorization: accessToken,
+        },
+      })
+        .then(response => response.json())
+        .then(result => {
+          setListData(result.message);
+          setLoading(false);
+        });
+    } else {
+      console.log("ㅇOs");
+      setLoading(true);
+      fetch(`http://10.58.52.191:3000/product/${currTab}`)
+        .then(response => response.json())
+        .then(result => {
+          setListData(result.message);
+          setLoading(false);
+        });
+    }
   }, [currTab]);
 
   // useEffect(() => {

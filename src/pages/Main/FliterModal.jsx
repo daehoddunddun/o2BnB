@@ -21,15 +21,14 @@ function FliterModal({ filterBtn, listData, setListData, setLoading }) {
     setRangeMaxPrice(e.target.value);
   };
 
-  const test = () => {
-    console.log("전달할 최소값", rangeMinPrice, "전달할 최댓값", rangeMaxPrice);
+  const accessToken = localStorage.getItem("TOKEN");
 
+  const test = () => {
     fetch(
       `http://10.58.52.191:3000/product/priceFilter?lowprice=${rangeMinPrice}&highprice=${rangeMaxPrice}`,
       {
         headers: {
-          authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+          authorization: accessToken,
         },
         body: JSON.stringify(),
       }

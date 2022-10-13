@@ -110,10 +110,10 @@ const SearchButton = styled.button`
 `;
 
 const SearchResultBoxWrap = styled.div`
+  display: ${props => (props.searchResultModalOpen ? "none" : "block")};
   position: absolute;
   top: 0px;
   width: 500px;
-  height: 220px;
   z-index: -1;
 `;
 
