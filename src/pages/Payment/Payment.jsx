@@ -8,22 +8,24 @@ import { useNavigate } from "react-router-dom";
 function PayMent() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({});
+  const accessToken = localStorage.getItem("TOKEN");
+
   useEffect(() => {
     setLoading(true);
     fetch("http://10.58.52.191:3000/book/order", {
       method: "GET",
       headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
     })
       .then(res => res.json())
       .then(data => {
+        // console.log(data, "ddddddddd");
         setInfo(...data.data);
         setLoading(false);
       });
   }, []);
-
+  console.log(info);
   const { name, price, guest_count, start_date, end_date, nights, content } =
     info;
 
@@ -139,7 +141,6 @@ function PayMent() {
         <Container>
           <Header>
             <button>
-              {loading && <Loading />}
               <FaArrowLeft />
             </button>
             <p>예약요청</p>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import Calendar from "../../Calendar";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -63,11 +64,14 @@ function ItemDetailReservation({
   const totalData = String(total);
   const startDateData = `${startDaTeYear}-${startDateMonth}-${startDateDay}`;
   const endDateData = `${endDateYear}-${endDateMonth}-${endDateDay}`;
-
   const accessToken = localStorage.getItem("TOKEN");
 
+  const params = useParams();
+  const { productId } = params;
+
   const submitReservation = () => {
-    fetch(`http://10.58.52.191:3000/book/${1}`, {
+    console.log(productId);
+    fetch(`http://10.58.52.191:3000/book/${productId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -80,9 +84,10 @@ function ItemDetailReservation({
         endDate: endDateData,
       }),
     }).then(res => res.json());
+    // window.location.replace("/payment");
     navigate("/payment");
   };
-
+  // console.log(window.location, "ddd");
   return (
     <ReservationContainer>
       <Price>
