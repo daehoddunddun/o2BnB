@@ -10,6 +10,24 @@ function PayMent() {
   const [info, setInfo] = useState({});
   const accessToken = localStorage.getItem("TOKEN");
 
+  const { name, price, guest_count, start_date, end_date, nights, content } =
+    info;
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch("http://10.58.52.191:3000/book/order", {
+  //     method: "GET",
+  //     headers: {
+  //       authorization: accessToken,
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       // console.log(data, "ddddddddd");
+  //       setInfo(...data.data);
+  //       setLoading(false);
+  //     });
+  // }, [info.name, info.content, info.price]);
   useEffect(() => {
     setLoading(true);
     fetch("http://10.58.52.191:3000/book/order", {
@@ -21,13 +39,10 @@ function PayMent() {
       .then(res => res.json())
       .then(data => {
         // console.log(data, "ddddddddd");
-        setInfo(...data.data);
+        setInfo(data.data[0]);
         setLoading(false);
       });
-  }, []);
-  console.log(info);
-  const { name, price, guest_count, start_date, end_date, nights, content } =
-    info;
+  }, [name]);
 
   const bookingDate = new Date(start_date);
   const bookEndDate = new Date(end_date);
@@ -173,7 +188,7 @@ function PayMent() {
                       총액을 결제하시면 모든 절차가 완료됩니다.
                     </SmallestHeader>
                   </div>
-                  <SmallHeader>₩{price}</SmallHeader>
+                  <SmallHeader>₩{totalPrice}</SmallHeader>
                 </DateContainer>
                 <DateContainer>
                   <div>
@@ -181,9 +196,9 @@ function PayMent() {
                       요금 일부는 지금 결제, 나머지는 나중에 결제
                     </SmallHeader>
                     <SmallestHeader>
-                      지금 ₩{price / 2}을(를) 결제하시면, 나머지 금액{price / 2}
-                      은 동일한 결제수단으로 2022년 10월 9일 자동 청구됩니다.
-                      추가 수수료는 없습니다.
+                      지금 ₩{totalPrice / 2}을(를) 결제하시면, 나머지 금액
+                      {totalPrice / 2}은 동일한 결제수단으로 2022년 10월 9일
+                      자동 청구됩니다. 추가 수수료는 없습니다.
                     </SmallestHeader>
                   </div>
                   <SmallHeader>₩{price / 2}</SmallHeader>

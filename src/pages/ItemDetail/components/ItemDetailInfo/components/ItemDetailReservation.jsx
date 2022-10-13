@@ -70,7 +70,6 @@ function ItemDetailReservation({
   const { productId } = params;
 
   const submitReservation = () => {
-    console.log(productId);
     fetch(`http://10.58.52.191:3000/book/${productId}`, {
       method: "POST",
       headers: {
@@ -84,10 +83,10 @@ function ItemDetailReservation({
         endDate: endDateData,
       }),
     }).then(res => res.json());
-    // window.location.replace("/payment");
+
     navigate("/payment");
   };
-  // console.log(window.location, "ddd");
+
   return (
     <ReservationContainer>
       <Price>

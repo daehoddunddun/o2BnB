@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 function Result() {
+  const [info, setInfo] = useState({});
+  const [date, setDate] = useState("");
+  const accessToken = localStorage.getItem("TOKEN");
+  const dt = new Date();
+  const today = `${dt.getFullYear()}년${dt.getMonth() + 1}월${
+    dt.getDate() > 9 ? dt.getDate() : "0" + dt.getDate().toString()
+  }일`;
   useEffect(() => {
     fetch("http://10.58.52.191:3000/book/payment", {
       method: "GET",
       headers: {
-        authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
+        authorization: accessToken,
       },
     })
       .then(res => res.json())
@@ -16,17 +22,6 @@ function Result() {
         setDate(today);
       });
   }, []);
-  // const makeDate = new Date();
-  // const today = document.write(makeDate);
-
-  const [info, setInfo] = useState({});
-  console.log(info);
-  const [date, setDate] = useState("");
-
-  const dt = new Date();
-
-  const today = `${dt.getFullYear()}년${dt.getMonth() + 1}월${dt.getDay()}일`;
-
   const { price, guest_count, start_date, end_date } = info;
 
   const bookingDate = new Date(start_date);
@@ -35,7 +30,6 @@ function Result() {
   const AccommodationDate = `${bookingDate.getFullYear()}년${
     bookingDate.getMonth() + 1
   }월${bookingDate.getDate()}일~${bookEndDate.getDate()}일`;
-  console.log(AccommodationDate);
 
   return (
     <AllWrap>
