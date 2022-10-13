@@ -9,7 +9,7 @@ function PayMent() {
   const navigate = useNavigate();
   const [info, setInfo] = useState({});
   useEffect(() => {
-    setLoading(false);
+    setLoading(true);
     fetch("http://10.58.52.191:3000/book/order", {
       method: "GET",
       headers: {
@@ -18,7 +18,10 @@ function PayMent() {
       },
     })
       .then(res => res.json())
-      .then(data => setInfo(...data.data));
+      .then(data => {
+        setInfo(...data.data);
+        setLoading(false);
+      });
   }, []);
 
   const { name, price, guest_count, start_date, end_date, nights, content } =
@@ -69,16 +72,6 @@ function PayMent() {
     navigate("/result");
   };
 
-  // const date1 = new Date(start_date);
-
-  // const date2 = new Date(end_date);
-
-  // const elapsedMSec = date2.getTime() - date1.getTime();
-
-  // const rangeDate = elapsedMSec / 1000 / 60 / 60 / 24;
-
-  // console.log(rangeDate);
-
   const [loading, setLoading] = useState(true);
 
   const [inputValues, setInputValues] = useState({});
@@ -88,7 +81,7 @@ function PayMent() {
     setInputValues({ ...inputValues, [name]: value });
   };
 
-  const totalPrice = "501600";
+  const totalPrice = price * nights + tax;
 
   const kakaoPay = () => {
     fetch("https://kapi.kakao.com/v1/payment/ready", {
@@ -105,59 +98,6 @@ function PayMent() {
         window.open(box);
       });
   };
-
-  // const naverPay = () => {
-  //   fetch(
-  //     "https://dev.apis.naver.com/naverpay-partner/naverpay/payments/v2/reserve",
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         "X-Naver-Client-Id": "zu86j4ripEt8LRfPGzQ8",
-  //         "Content-type": "application/json",
-  //       },
-  //       body: {
-  //         modelVersion: "2",
-  //         merchantUserKey: "muserkey",
-  //         merchantPayKey: "mpaykey",
-  //         productName:
-  //           "청량한 동해 바다 가까이 휴식을 위한 숙소의 B401(스파,하프오션뷰)",
-  //         productCount: 10,
-  //         totalPayAmount: 1000,
-  //         deliveryFee: 2500,
-  //         returnUrl: "{http://localhost:3000}",
-  //         taxScopeAmount: 1000,
-  //         taxExScopeAmount: 0,
-  //         environmentDepositAmount: 0,
-  //         purchaserName: "김효성",
-  //         purchaserBirthday: "20000101",
-  //         productItems: [
-  //           {
-  //             categoryType: "BOOK",
-  //             categoryId: "GENERAL",
-  //             uid: "107922211",
-  //             name: "한국사",
-  //             payReferrer: "NAVER_BOOK",
-  //             count: 10,
-  //           },
-  //           {
-  //             categoryType: "MUSIC",
-  //             categoryId: "CD",
-  //             uid: "299911002",
-  //             name: "Loves",
-  //             payReferrer: "NAVER_BOOK",
-  //             count: 10,
-  //           },
-  //         ],
-  //       },
-  //     }
-  //   )
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       const box = response.next_redirect_pc_url;
-  //       window.open(box);
-  //     });
-  // };
-
   const bodyData = {
     cid: "TC0ONETIME",
     partner_order_id: "partner_order_id",
@@ -185,13 +125,12 @@ function PayMent() {
   const clickHandler = e => {
     if (inputValues.결제방식 === "카카오페이") {
       return kakaoPay();
-    } else if (inputValues.결제방식 === "네이버페이") {
-      // return naverPay();
+    } else if (inputValues.valueOf.length === 0) {
+      goToResult();
     } else {
       goToResult();
     }
   };
-
   return (
     <>
       {loading ? (
@@ -366,7 +305,7 @@ function PayMent() {
                 <ContainerSection>
                   <FeeDetail2>
                     <p>총 합계 (KRW)</p>
-                    <p>₩{price * nights + tax}</p>
+                    <p>₩{totalPrice}</p>
                   </FeeDetail2>
                 </ContainerSection>
               </ConfirmInfoContainer>

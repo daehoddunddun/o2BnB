@@ -52,7 +52,7 @@ function WishList() {
       .then(response => response.json())
       .then(result => setTest(result.message));
   }, []);
-  // console.log(test);
+  console.log(test);
 
   const settings = {
     dots: true,
@@ -86,7 +86,7 @@ function WishList() {
                 >
                   <ImgTest>
                     <StyledSlider {...settings}>
-                      {item.image.map(list => {
+                      {item.image_url.map(list => {
                         return (
                           <ImgBox key={list.id}>
                             <ContentsImg src={list} />
@@ -104,7 +104,7 @@ function WishList() {
                       개, 욕실 {item.bathroom_count}개
                     </IntroRoom>
                     <IntroMorebox>
-                      <IntroStar>스타</IntroStar>
+                      <IntroStar>★{starFilter(item.reviewStar)}</IntroStar>
                       <IntroPrice>{priceFilter(item.price)}원/박</IntroPrice>
                     </IntroMorebox>
                   </ContentsIntroWrap>

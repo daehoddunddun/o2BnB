@@ -11,7 +11,6 @@ import Like from "./Like";
 
 function List({ themeGrey, themePink, listData }) {
   const [isMap, setIsMap] = useState(false);
-  console.log("?", listData);
   const mapBtn = () => {
     setIsMap(!isMap);
   };
@@ -50,6 +49,7 @@ function List({ themeGrey, themePink, listData }) {
             <ListContent key={item.id}>
               <ListIconHeart>
                 <Like
+                  onClick={() => console.log(item.id)}
                   id={item.id}
                   themeGrey={themeGrey}
                   themePink={themePink}
@@ -167,6 +167,7 @@ const ListText = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   width: calc(100% - 80px);
+  cursor: pointer;
 `;
 
 const ListTitle = styled.strong`
