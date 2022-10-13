@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-function FliterModal({ filterBtn, listData, setListData }) {
+function FliterModal({ filterBtn, listData, setListData, setLoading }) {
   const priceCalculator = [];
   listData.forEach(item => {
     priceCalculator.push(item.price);
@@ -35,7 +35,11 @@ function FliterModal({ filterBtn, listData, setListData }) {
       }
     )
       .then(response => response.json())
-      .then(result => setListData(result.message));
+      .then(result => {
+        setListData(result.message);
+        setLoading(false);
+      });
+
     filterBtn();
   };
 

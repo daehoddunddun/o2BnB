@@ -6,7 +6,7 @@ import { BsFillPersonCheckFill } from "react-icons/bs";
 
 function ItemDetailHost({ hostInfo, reviews }) {
   const host = new Date(hostInfo.created_at).toLocaleDateString();
-  const reviewsCount = Object.keys(reviews.reviews).length;
+
   return (
     <Host>
       <HostTitle>
@@ -19,7 +19,7 @@ function ItemDetailHost({ hostInfo, reviews }) {
         </TitleHeader>
         <HostCertification>
           <AiFillStar />
-          <HostText>후기 {reviewsCount}개</HostText>
+          <HostText>후기 {hostInfo.reviewCount}개</HostText>
           <IoMdMedal />
           <HostText>{hostInfo.grade}</HostText>
           <BsFillPersonCheckFill />

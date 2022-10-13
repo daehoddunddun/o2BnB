@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { FaMapMarkedAlt } from "react-icons/fa";
@@ -36,6 +37,10 @@ function List({ themeGrey, themePink, listData }) {
     let fomatting = test.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return fomatting;
   };
+  const navigate = useNavigate();
+  const moveItemDetail = id => {
+    navigate(`/item-detail/${id}`);
+  };
 
   return (
     <>
@@ -68,7 +73,11 @@ function List({ themeGrey, themePink, listData }) {
                 })}
               </StyledSlider>
               <ListInfo>
-                <ListText>
+                <ListText
+                  onClick={() => {
+                    moveItemDetail(item.id);
+                  }}
+                >
                   <ListTitle>{item.name}</ListTitle>
                   <ListMitter>{item.address}</ListMitter>
                   <ListPrice>{priceFilter(item.price)}원</ListPrice>

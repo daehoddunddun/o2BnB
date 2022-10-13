@@ -5,27 +5,34 @@ function ItemDetailReview({ star, reviews }) {
   return (
     <>
       <Star>
-        {star && (
-          <StarContainer>
-            <StarPoint>
-              <StarText>청결도</StarText>
-              <Meter min="0" max="5" value={star.cleanAvg} />
-              <StarTextPoint>{Number(star.cleanAvg).toFixed(2)}</StarTextPoint>
-            </StarPoint>
-            <StarPoint>
-              <StarText>위치</StarText>
-              <Meter min="0" max="5" value={star.addressAvg} />
-              <StarTextPoint>
-                {Number(star.addressAvg).toFixed(2)}
-              </StarTextPoint>
-            </StarPoint>
-            <StarPoint>
-              <StarText>가격 대비 만족도</StarText>
-              <Meter min="0" max="5" value={star.priceAvg} />
-              <StarTextPoint>{Number(star.priceAvg).toFixed(2)}</StarTextPoint>
-            </StarPoint>
-          </StarContainer>
-        )}
+        {star &&
+          (star.cleanAvg && star.addressAvg && star.priceAvg ? (
+            <StarContainer>
+              <StarPoint>
+                <StarText>청결도</StarText>
+                <Meter min="0" max="5" value={star.cleanAvg} />
+                <StarTextPoint>
+                  {Number(star.cleanAvg).toFixed(2)}
+                </StarTextPoint>
+              </StarPoint>
+              <StarPoint>
+                <StarText>위치</StarText>
+                <Meter min="0" max="5" value={star.addressAvg} />
+                <StarTextPoint>
+                  {Number(star.addressAvg).toFixed(2)}
+                </StarTextPoint>
+              </StarPoint>
+              <StarPoint>
+                <StarText>가격 대비 만족도</StarText>
+                <Meter min="0" max="5" value={star.priceAvg} />
+                <StarTextPoint>
+                  {Number(star.priceAvg).toFixed(2)}
+                </StarTextPoint>
+              </StarPoint>
+            </StarContainer>
+          ) : (
+            <p />
+          ))}
       </Star>
       <ReviewContainer>
         {reviews.map(({ id, created_at, content, name, profile_image }) => {

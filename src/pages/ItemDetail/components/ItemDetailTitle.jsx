@@ -16,7 +16,12 @@ function ItemDetailTitle({ detail, star, hostInfo }) {
           <div>
             <Button>
               <AiFillStar size={16} />
-              {star && <p>{Number(star.totalAVG).toFixed(2)}</p>}
+              {star &&
+                (star.totalAvg ? (
+                  <p>{Number(star.totalAvg).toFixed(2)}</p>
+                ) : (
+                  <p>NEW</p>
+                ))}
             </Button>
             <Button>
               <IoMdMedal size={16} />

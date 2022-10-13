@@ -50,10 +50,10 @@ function ItemDetailReservation({
   const total = Number(price) + Number(tax);
 
   const startDaTeYear = startDate.getFullYear();
-  const startDateMonth = startDate.getMonth();
+  const startDateMonth = startDate.getMonth() + 1;
   const startDateDay = startDate.getDate();
   const endDateYear = endDate.getFullYear();
-  const endDateMonth = endDate.getMonth();
+  const endDateMonth = endDate.getMonth() + 1;
   const endDateDay = endDate.getDate();
 
   const guestsData = String(guests);

@@ -8,18 +8,14 @@ import { BiSearchAlt } from "react-icons/bi";
 function SearchBox({
   handleInputData,
   searchInputData,
-  setSearchInputData,
   searchKeywordSubmit,
   searchResultData,
-  filterSearchData,
-  filterData,
   searchResultModalOpen,
-  setSearchResultModalOpen,
   handleSearchResultModalOpen,
   handleSearchResultModalClose,
 }) {
   const [ref, isClickedOutside] = useClickOutside();
-  const accessToken = localStorage.getItem("TOKEN");
+  const newSearchResultData = [...searchResultData];
   const moveSerachResultBox = {
     open: {
       top: 62,
@@ -55,13 +51,18 @@ function SearchBox({
       <SearchResultBoxWrap>
         <SearchResultBox
           animate={
-            searchResultModalOpen && searchInputData >= 1 ? "open" : "close"
+            searchResultModalOpen && searchInputData.length > 0
+              ? "open"
+              : "close"
           }
           variants={moveSerachResultBox}
         >
-          {filterData?.map(data => {
+          {newSearchResultData.map(data => {
             return (
-              <Link to={`/product/detail?${filterData[0]?.id}`} key={data.id}>
+              <Link
+                to={`/item-detail/${newSearchResultData[0].id}`}
+                key={data.id}
+              >
                 <SearchResultText>{data.name}</SearchResultText>
               </Link>
             );
@@ -90,7 +91,7 @@ const SearchBoxInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 31px;
   box-shadow: ${props =>
-    props.searchResultModalOpen ? "2px 2px 5px #aeaeae;" : ""};
+    props.searchResultModalOpen ? "2px 2px 5px #AEAEAE;" : ""};
   transition: 0.1s;
 
   &:focus {

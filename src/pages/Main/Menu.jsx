@@ -12,12 +12,19 @@ import {
   RiFilter3Fill,
 } from "react-icons/ri";
 
-function Menu({ themeGrey, themeBlack, test, listData, setListData }) {
+function Menu({
+  themeGrey,
+  themeBlack,
+  test,
+  listData,
+  setListData,
+  setLoading,
+}) {
   const menuList = [
     {
       id: 1,
       icon: <TiThSmall size="30" color={themeBlack} />,
-      title: "All",
+      title: "all",
     },
     {
       id: 2,
@@ -80,6 +87,7 @@ function Menu({ themeGrey, themeBlack, test, listData, setListData }) {
               filterBtn={filterBtn}
               listData={listData}
               setListData={setListData}
+              setLoading={setLoading}
             />
           )}
         </FilterTab>

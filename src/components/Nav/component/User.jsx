@@ -21,7 +21,8 @@ function User({ props }) {
       .then(res => res.json())
       .then(
         result => (
-          localStorage.setItem("TOKEN", result.accessToken), navigate(`/`)
+          localStorage.setItem("TOKEN", result.accessToken),
+          window.location.replace("/")
         )
       );
   }, []);

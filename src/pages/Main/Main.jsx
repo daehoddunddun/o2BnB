@@ -16,6 +16,7 @@ function Main() {
   console.log("??", listData);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`http://10.58.52.191:3000/product/${currTab}`, {
       headers: {
         authorization:
@@ -23,10 +24,10 @@ function Main() {
       },
     })
       .then(response => response.json())
-      .then(result => setListData(result.message));
-    if (listData != null) {
-      setLoading(false);
-    }
+      .then(result => {
+        setListData(result.message);
+        setLoading(false);
+      });
   }, [currTab]);
 
   // useEffect(() => {
@@ -50,7 +51,7 @@ function Main() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
+    <div>
       {loading ? (
         <Loading />
       ) : (
@@ -61,6 +62,7 @@ function Main() {
             listData={listData}
             setListData={setListData}
             test={test}
+            setLoading={setLoading}
           />
           <List
             themeGrey={theme.color.grey}
@@ -70,7 +72,7 @@ function Main() {
           />
         </MainBox>
       )}
-    </>
+    </div>
   );
 }
 

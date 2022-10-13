@@ -60,7 +60,9 @@ function ItemDetailInfo({ detail, hostInfo }) {
           </Introduce>
           <Introduce>
             <IoMdMedal size={23} />
-            <Text>태훈님은 {hostInfo.grade}입니다.</Text>
+            <Text>
+              {hostInfo.name}님은 {hostInfo.grade}입니다.
+            </Text>
           </Introduce>
           <Introduce>
             <BsCalendar3 size={60} />

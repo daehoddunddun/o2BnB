@@ -11,18 +11,12 @@ function Nav(props) {
   const [searchInputData, setSearchInputData] = useState("");
   const [searchResultData, setSearchResultData] = useState([]);
   const [userData, setUserData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
   const [searchResultModalOpen, setSearchResultModalOpen] = useState(false);
   const accessToken = localStorage.getItem("TOKEN");
   const refMenuBox = useRef();
   const location = useLocation();
   const navigate = useNavigate();
-  const check_eng = /[a-zA-Z]/;
-  const check_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-
   const pathname = location.pathname;
-
-  console.log("pathname : ", pathname);
 
   useEffect(() => {
     fetch(
@@ -36,16 +30,6 @@ function Nav(props) {
     )
       .then(res => res.json())
       .then(result => setSearchResultData(result.message));
-
-    setFilterData(
-      searchResultData.filter(value => {
-        if (check_eng.test(searchInputData)) {
-          return value.name.toLowerCase().includes(searchInputData);
-        } else if (check_kor.test(searchInputData)) {
-          return value.name.includes(searchInputData);
-        }
-      })
-    );
   }, [searchInputData]);
 
   useEffect(() => {
@@ -63,7 +47,7 @@ function Nav(props) {
   const searchKeywordSubmit = e => {
     e.preventDefault();
     if (accessToken) {
-      navigate(`/product/product/detail?${filterData[0]?.id}`);
+      navigate(`/item-detail/${searchResultData[0]?.id}`);
       handleSearchResultModalClose();
       setSearchInputData("");
     } else if (!accessToken) {
@@ -111,8 +95,7 @@ function Nav(props) {
   useEffect(() => {
     setSearchInputData("");
   }, [navigate]);
-  {
-  }
+
   return (
     <HeadWrap pathname={pathname}>
       <Link to="/">
@@ -125,7 +108,7 @@ function Nav(props) {
         setSearchInputData={setSearchInputData}
         searchResultData={searchResultData}
         searchKeywordSubmit={searchKeywordSubmit}
-        filterData={filterData}
+        // filterData={filterData}
         searchResultModalOpen={searchResultModalOpen}
         setSearchResultModalOpen={setSearchResultModalOpen}
         handleSearchResultModalOpen={handleSearchResultModalOpen}
@@ -165,7 +148,6 @@ const HeadWrap = styled.div`
   box-shadow: 0px 1px 0px #fafafa;
   background-color: #fff;
   z-index: 10;
-
   /* background-color: ${props => props.theme.color.black}; */
 `;
 

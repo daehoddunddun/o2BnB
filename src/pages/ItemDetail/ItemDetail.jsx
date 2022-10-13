@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ItemDetailTitle from "./components/ItemDetailTitle";
 import ItemDetailImages from "./components/ItemDetailImages";
 import ItemDetailInfo from "./components/ItemDetailInfo/ItemDetailInfo";
@@ -10,8 +11,11 @@ function ItemDetail() {
   const [detail, setDetail] = useState(null);
   const [reviewData, setReviewData] = useState({ star: null, reviews: [] });
 
+  const params = useParams();
+  const { productId } = params;
+
   useEffect(() => {
-    fetch(`http://10.58.52.191:3000/product/detail/${3}`, {
+    fetch(`http://10.58.52.191:3000/product/detail/${productId}`, {
       method: "GET",
       headers: {
         authorization:
@@ -19,11 +23,10 @@ function ItemDetail() {
       },
     })
       .then(res => res.json())
-      // .then(data => console.log(data));
       .then(data => setDetail(data))
       .catch(error => console.log(error));
 
-    fetch(`http://10.58.52.191:3000/reviews/1`, {
+    fetch(`http://10.58.52.191:3000/reviews/${productId}`, {
       method: "GET",
       headers: {
         authorization:
