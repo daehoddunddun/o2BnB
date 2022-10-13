@@ -15,7 +15,7 @@ import {
 function Menu({
   themeGrey,
   themeBlack,
-  test,
+  chageCurrTab,
   listData,
   setListData,
   setLoading,
@@ -70,7 +70,7 @@ function Menu({
         <MenuTab>
           {menuList.map(item => {
             return (
-              <MenuList key={item.id} onClick={() => test(item.title)}>
+              <MenuList key={item.id} onClick={() => chageCurrTab(item.title)}>
                 {item.icon}
                 <MenuFont>{item.title}</MenuFont>
               </MenuList>
@@ -104,7 +104,6 @@ const MenuBox = styled.div`
   height: 80px;
   margin-bottom: 20px;
   background-color: ${({ theme }) => theme.color.white};
-  border-top: 1px solid #7171716c;
 `;
 
 const MenuList = styled.div`

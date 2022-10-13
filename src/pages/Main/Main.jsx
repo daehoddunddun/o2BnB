@@ -6,18 +6,18 @@ import Menu from "./Menu";
 import Loading from "../../components/Loading/Loading";
 
 function Main() {
-  const [currTab, setCurrTab] = useState("all");
+  const accessToken = localStorage.getItem("TOKEN");
 
-  const test = id => {
+  const [currTab, setCurrTab] = useState("all");
+  const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const chageCurrTab = id => {
     setCurrTab(id);
   };
 
-  const [listData, setListData] = useState([]);
-  const accessToken = localStorage.getItem("TOKEN");
-
   useEffect(() => {
     if (accessToken != undefined) {
-      console.log("너니?");
       setLoading(true);
       fetch(`http://10.58.52.191:3000/product/${currTab}`, {
         headers: {
@@ -30,7 +30,6 @@ function Main() {
           setLoading(false);
         });
     } else {
-      console.log("ㅇOs");
       setLoading(true);
       fetch(`http://10.58.52.191:3000/product/${currTab}`)
         .then(response => response.json())
@@ -40,26 +39,6 @@ function Main() {
         });
     }
   }, [currTab]);
-
-  // useEffect(() => {
-  //   fetch(`/data/${currTab}.json`)
-  //     .then(response => response.json())
-  //     .then(result => setListData(result));
-  // }, [currTab]);
-
-  // const [mapList, setMapList] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`http://10.58.52.191:3000/product/map/all`, {
-  //     headers: {
-  //       authorization:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJpYXQiOjE2NjUwNDA5NzZ9.y1_aofAxEpehGwNCCLnOYXnnaz05LCXYwdwJDfjOF8I",
-  //     },
-  //   })
-  //     .then(response => response.json())
-  //     .then(result => console.log("ㄴㄴ", result));
-  // }); 지도 데이터 잘 드렁옴
-  const [loading, setLoading] = useState(true);
 
   return (
     <div>
@@ -72,7 +51,7 @@ function Main() {
             themeBlack={theme.color.black}
             listData={listData}
             setListData={setListData}
-            test={test}
+            chageCurrTab={chageCurrTab}
             setLoading={setLoading}
           />
           <List

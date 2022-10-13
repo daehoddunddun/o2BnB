@@ -148,6 +148,13 @@ function PayMent() {
       goToResult();
     }
   };
+
+  const priceFilter = item => {
+    let test = item;
+    let fomatting = test.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return fomatting;
+  };
+
   return (
     <>
       {loading ? (

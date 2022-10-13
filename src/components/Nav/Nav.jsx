@@ -99,7 +99,13 @@ function Nav(props) {
   return (
     <HeadWrap pathname={pathname}>
       <Link to="/">
-        <Logo src="../../../image/janghyun/100.png" alt="logo" />
+        <Logo
+          src="../../../image/janghyun/100.png"
+          alt="logo"
+          onClick={() => {
+            window.location.replace("/");
+          }}
+        />
       </Link>
       <SearchBox
         className="searchBoxWrap"

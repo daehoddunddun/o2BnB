@@ -11,7 +11,27 @@ import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
 
 function WishList() {
-  const [test, setTest] = useState([]);
+  const accessToken = localStorage.getItem("TOKEN");
+
+  const navigate = useNavigate();
+
+  const [wishData, setWishData] = useState([]);
+  const [mapData, setMapData] = useState({
+    id: 0,
+    lat: 37.4823041565813,
+    long: 127.043353985274,
+  });
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+  };
+
+  const moveItemDetail = id => {
+    navigate(`/item-detail/${id}`);
+  };
 
   const starFilter = item => {
     if (item === null) {
@@ -22,21 +42,14 @@ function WishList() {
   };
 
   const priceFilter = item => {
-    let test = item;
-    let fomatting = test.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let priceData = item;
+    let fomatting = priceData.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return fomatting;
   };
 
-  const [mapData, setMapData] = useState({
-    id: 0,
-    lat: 37.4823041565813,
-    long: 127.043353985274,
-  });
   const clickMap = data => {
     setMapData({ id: data.id, lat: data.lat, long: data.long });
   };
-
-  const accessToken = localStorage.getItem("TOKEN");
 
   useEffect(() => {
     fetch("http://10.58.52.191:3000/likes", {
@@ -45,23 +58,8 @@ function WishList() {
       },
     })
       .then(response => response.json())
-      .then(result => setTest(result.message));
+      .then(result => setWishData(result.message));
   }, []);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-  };
-
-  const navigate = useNavigate();
-
-  const moveItemDetail = id => {
-    console.log(id);
-    navigate(`/item-detail/${id}`);
-  };
-  //
 
   return (
     <div>
@@ -75,7 +73,7 @@ function WishList() {
             </IconPositionBox>
           </IconBox>
           <WishScrollWrap>
-            {test.map(item => {
+            {wishData.map(item => {
               return (
                 <ContentsWrap
                   key={item.product_id}
@@ -150,7 +148,7 @@ const WishRightBox = styled.div`
   position: relative;
   width: 55%;
   height: 85vh;
-  margin-top: 50px;
+  margin-top: 49px;
 `;
 
 const IconBox = styled.div`
@@ -158,8 +156,7 @@ const IconBox = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 50px;
-  padding-right: 5px;
-  border-bottom: 1px solid #d3d4d4ac;
+  padding: 15px 5px 0 0;
 `;
 
 const WishScrollWrap = styled.div`

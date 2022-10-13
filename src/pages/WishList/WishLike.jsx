@@ -17,9 +17,7 @@ function WishLike({ themeGrey, themePink, likeType, id }) {
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),
-      })
-        .then(response => response.json())
-        .then(result => console.log("위시 좋아요", result));
+      }).then(response => response.json());
     } else {
       fetch(`http://10.58.52.191:3000/likes/${id}`, {
         method: "DELETE",
@@ -28,9 +26,7 @@ function WishLike({ themeGrey, themePink, likeType, id }) {
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),
-      })
-        .then(response => response.json())
-        .then(result => console.log("위시 좋아요 취소", result));
+      }).then(response => response.json());
     }
   };
 

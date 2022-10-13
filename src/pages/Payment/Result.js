@@ -20,6 +20,9 @@ function Result() {
       .then(data => {
         setInfo(...data.data);
         setDate(today);
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 2000);
       });
   }, []);
   const { price, guest_count, start_date, end_date } = info;

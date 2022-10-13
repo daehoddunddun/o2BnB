@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 function Like({ themeGrey, themePink, checkLike, id }) {
-  const [isLike, setIsLike] = useState(Boolean(Number(checkLike)));
   const accessToken = localStorage.getItem("TOKEN");
+  const [isLike, setIsLike] = useState(Boolean(Number(checkLike)));
 
   const likeBtn = id => {
     setIsLike(!isLike);
@@ -15,9 +15,7 @@ function Like({ themeGrey, themePink, checkLike, id }) {
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),
-      })
-        .then(response => response.json())
-        .then(result => console.log("좋아요", result));
+      }).then(response => response.json());
     } else {
       fetch(`http://10.58.52.191:3000/likes/${id}`, {
         method: "DELETE",
@@ -26,9 +24,7 @@ function Like({ themeGrey, themePink, checkLike, id }) {
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify(),
-      })
-        .then(response => response.json())
-        .then(result => console.log("좋아요 취소", result));
+      }).then(response => response.json());
     }
   };
 

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 function FliterModal({ filterBtn, listData, setListData, setLoading }) {
+  const accessToken = localStorage.getItem("TOKEN");
   const priceCalculator = [];
+
   listData.forEach(item => {
     priceCalculator.push(item.price);
   });
@@ -21,9 +23,7 @@ function FliterModal({ filterBtn, listData, setListData, setLoading }) {
     setRangeMaxPrice(e.target.value);
   };
 
-  const accessToken = localStorage.getItem("TOKEN");
-
-  const test = () => {
+  const onFilter = () => {
     fetch(
       `http://10.58.52.191:3000/product/priceFilter?lowprice=${rangeMinPrice}&highprice=${rangeMaxPrice}`,
       {
@@ -84,7 +84,7 @@ function FliterModal({ filterBtn, listData, setListData, setLoading }) {
               </FilterMaxInput>
             </FilterInputWrap>
           </ChartBox>
-          <OnFilter onClick={test}>확인</OnFilter>
+          <OnFilter onClick={onFilter}>확인</OnFilter>
         </ModalBox>
       </ModalBack>
     </div>

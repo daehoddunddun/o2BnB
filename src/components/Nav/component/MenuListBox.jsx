@@ -7,7 +7,7 @@ function MenuListBox({ showModal, closeMenu }) {
   const accessToken = localStorage.getItem("TOKEN");
   const deleteToken = () => {
     localStorage.removeItem("TOKEN");
-    navigate(`/`);
+    window.location.replace("/");
   };
 
   return (

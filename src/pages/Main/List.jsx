@@ -10,10 +10,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Like from "./Like";
 
 function List({ themeGrey, themePink, listData }) {
+  const navigate = useNavigate();
+
   const [isMap, setIsMap] = useState(false);
-  const mapBtn = () => {
-    setIsMap(!isMap);
-  };
 
   const settings = {
     dots: true,
@@ -21,6 +20,14 @@ function List({ themeGrey, themePink, listData }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+
+  const mapBtn = () => {
+    setIsMap(!isMap);
+  };
+
+  const moveItemDetail = id => {
+    navigate(`/item-detail/${id}`);
   };
 
   const starFilter = item => {
@@ -32,13 +39,9 @@ function List({ themeGrey, themePink, listData }) {
   };
 
   const priceFilter = item => {
-    let test = item;
-    let fomatting = test.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let priceData = item;
+    let fomatting = priceData.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return fomatting;
-  };
-  const navigate = useNavigate();
-  const moveItemDetail = id => {
-    navigate(`/item-detail/${id}`);
   };
 
   return (
@@ -49,7 +52,6 @@ function List({ themeGrey, themePink, listData }) {
             <ListContent key={item.id}>
               <ListIconHeart>
                 <Like
-                  onClick={() => console.log(item.id)}
                   id={item.id}
                   themeGrey={themeGrey}
                   themePink={themePink}
@@ -83,10 +85,7 @@ function List({ themeGrey, themePink, listData }) {
                   <ListPrice>{priceFilter(item.price)}원</ListPrice>
                 </ListText>
                 <StarBox>
-                  <ListStart>
-                    ★{starFilter(item.reviewStar)}
-                    {/* ★{Math.floor(item.reviewStar * 100) / 100} */}
-                  </ListStart>
+                  <ListStart>★{starFilter(item.reviewStar)}</ListStart>
                 </StarBox>
               </ListInfo>
             </ListContent>

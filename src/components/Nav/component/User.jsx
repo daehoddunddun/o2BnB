@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Loading from "../../Loading/Loading";
 
 function User({ props }) {
   const location = useLocation();
@@ -29,7 +30,7 @@ function User({ props }) {
 
   return (
     <UserContent>
-      유저 정보를 받아오는 중입니다. 잠시만 기다려 주세요!
+      <Loading />
     </UserContent>
   );
 }
