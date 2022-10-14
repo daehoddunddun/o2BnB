@@ -9,6 +9,7 @@ import theme from "../../styles/theme";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
 
 function WishList() {
   const accessToken = localStorage.getItem("TOKEN");
@@ -16,10 +17,11 @@ function WishList() {
   const navigate = useNavigate();
 
   const [wishData, setWishData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [mapData, setMapData] = useState({
     id: 0,
-    lat: 37.4823041565813,
-    long: 127.043353985274,
+    lat: 35.795872678665454,
+    long: 127.11140489302386,
   });
 
   const settings = {
@@ -58,77 +60,84 @@ function WishList() {
       },
     })
       .then(response => response.json())
-      .then(result => setWishData(result.message));
+      .then(result => {
+        setWishData(result.message);
+        setLoading(false);
+      });
   }, []);
 
   return (
     <div>
-      <WishWrap>
-        <WishLeftWrap>
-          <IconBox>
-            <WishTitle>위시리스트</WishTitle>
-            <IconPositionBox>
-              <ImShare2 size="18px" cursor="pointer" />
-              <MdMoreHoriz size="30px" cursor="pointer" />
-            </IconPositionBox>
-          </IconBox>
-          <WishScrollWrap>
-            {wishData.map(item => {
-              return (
-                <ContentsWrap
-                  key={item.product_id}
-                  onClick={() =>
-                    clickMap({
-                      id: item.product_id,
-                      lat: item.latitude,
-                      long: item.longitude,
-                    })
-                  }
-                >
-                  <ImgTest>
-                    <StyledSlider {...settings}>
-                      {item.image_url.map(list => {
-                        return (
-                          <ImgBox
-                            key={list.id}
-                            onClick={() => {
-                              moveItemDetail(item.product_id);
-                            }}
-                          >
-                            <ContentsImg src={list} />
-                          </ImgBox>
-                        );
-                      })}
-                    </StyledSlider>
-                  </ImgTest>
-                  <ContentsIntroWrap>
-                    <IntroTitle>{item.address}</IntroTitle>
-                    <IntroText>{item.content}</IntroText>
-                    <IntroRoom>
-                      최대 인원 {item.guest_count}명, 원룸, 침대
-                      {item.bed_count}
-                      개, 욕실 {item.bathroom_count}개
-                    </IntroRoom>
-                    <IntroMorebox>
-                      <IntroStar>★{starFilter(item.reviewStar)}</IntroStar>
-                      <IntroPrice>{priceFilter(item.price)}원/박</IntroPrice>
-                    </IntroMorebox>
-                  </ContentsIntroWrap>
-                  <WishLike
-                    themeGrey={theme.color.grey}
-                    themeBlack={theme.color.black}
-                    themePink={theme.color.pink}
-                    id={item.product_id}
-                  />
-                </ContentsWrap>
-              );
-            })}
-          </WishScrollWrap>
-        </WishLeftWrap>
-        <WishRightBox>
-          <WishMap mapData={mapData} />
-        </WishRightBox>
-      </WishWrap>
+      {loading ? (
+        <Loading />
+      ) : (
+        <WishWrap>
+          <WishLeftWrap>
+            <IconBox>
+              <WishTitle>위시리스트</WishTitle>
+              <IconPositionBox>
+                <ImShare2 size="18px" cursor="pointer" />
+                <MdMoreHoriz size="30px" cursor="pointer" />
+              </IconPositionBox>
+            </IconBox>
+            <WishScrollWrap>
+              {wishData.map(item => {
+                return (
+                  <ContentsWrap
+                    key={item.product_id}
+                    onClick={() =>
+                      clickMap({
+                        id: item.product_id,
+                        lat: item.latitude,
+                        long: item.longitude,
+                      })
+                    }
+                  >
+                    <ImgTest>
+                      <StyledSlider {...settings}>
+                        {item.image_url.map(list => {
+                          return (
+                            <ImgBox
+                              key={list.id}
+                              onClick={() => {
+                                moveItemDetail(item.product_id);
+                              }}
+                            >
+                              <ContentsImg src={list} />
+                            </ImgBox>
+                          );
+                        })}
+                      </StyledSlider>
+                    </ImgTest>
+                    <ContentsIntroWrap>
+                      <IntroTitle>{item.address}</IntroTitle>
+                      <IntroText>{item.content}</IntroText>
+                      <IntroRoom>
+                        최대 인원 {item.guest_count}명, 원룸, 침대
+                        {item.bed_count}
+                        개, 욕실 {item.bathroom_count}개
+                      </IntroRoom>
+                      <IntroMorebox>
+                        <IntroStar>★{starFilter(item.reviewStar)}</IntroStar>
+                        <IntroPrice>{priceFilter(item.price)}원/박</IntroPrice>
+                      </IntroMorebox>
+                    </ContentsIntroWrap>
+                    <WishLike
+                      themeGrey={theme.color.grey}
+                      themeBlack={theme.color.black}
+                      themePink={theme.color.pink}
+                      id={item.product_id}
+                    />
+                  </ContentsWrap>
+                );
+              })}
+            </WishScrollWrap>
+          </WishLeftWrap>
+          <WishRightBox>
+            <WishMap mapData={mapData} />
+          </WishRightBox>
+        </WishWrap>
+      )}
     </div>
   );
 }
@@ -156,7 +165,7 @@ const IconBox = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 50px;
-  padding: 15px 5px 0 0;
+  padding-right: 5px;
 `;
 
 const WishScrollWrap = styled.div`
@@ -176,7 +185,7 @@ const IconPositionBox = styled.div`
 const WishTitle = styled.div`
   width: 100%;
   height: 50px;
-  padding: 10px 0 0 40px;
+  padding: 15px 0 0 40px;
   font-size: 30px;
   font-weight: 700;
 `;
